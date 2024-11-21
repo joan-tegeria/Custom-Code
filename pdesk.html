@@ -5,317 +5,285 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book Now</title>
     <style>
-      .container {
+      .pdeskcontainer {
+        background-color: white;
         max-width: 800px;
         margin: 0 auto;
-        background: white;
-        padding: 48px;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
       }
 
-      h1 {
-        font-size: 28px;
+      .pdeskcontainer h1 {
+        font-size: 1.75rem;
         font-weight: 600;
-        margin-bottom: 24px;
-        color: #2d3748;
-      }
-
-      h2 {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 20px;
-        color: #2d3748;
+        margin-bottom: 1rem;
+        color: #333;
       }
 
       .description {
-        color: #4a5568;
-        margin-bottom: 40px;
+        color: #666;
+        margin-bottom: 2rem;
         line-height: 1.6;
-        font-size: 15px;
+        font-size: 0.95rem;
       }
 
-      .form-section {
-        margin-bottom: 48px;
-        padding-bottom: 32px;
-        border-bottom: 1px solid #e2e8f0;
+      /* Progress Indicator */
+      .progress-steps {
+        display: flex;
+        margin-bottom: 2.5rem;
+        position: relative;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
       }
 
-      .form-section:last-child {
-        border-bottom: none;
-        margin-bottom: 24px;
-      }
-
-      .section-header {
+      .step {
         display: flex;
         align-items: center;
-        margin-bottom: 32px;
+        margin-right: 2rem;
+        color: #999;
       }
 
-      .section-number {
-        width: 28px;
-        height: 28px;
-        background: #e2e8f0;
+      .step.active {
+        color: #333;
+      }
+
+      .step-number {
+        width: 24px;
+        height: 24px;
+        background: #eee;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 12px;
-        font-size: 14px;
-        color: #4a5568;
-        font-weight: 600;
+        margin-right: 0.75rem;
+        font-size: 0.875rem;
+        color: #666;
       }
 
-      .section-title {
-        font-size: 18px;
-        color: #4a5568;
+      .step.active .step-number {
+        background: #4db6ac;
+        color: white;
+      }
+
+      .step-label {
+        font-size: 0.95rem;
         font-weight: 500;
       }
 
-      .form-group {
-        margin-bottom: 24px;
+      .form-section {
+        margin-bottom: 2.5rem;
       }
 
-      .form-group:last-child {
-        margin-bottom: 0;
+      .section-title {
+        font-size: 1rem;
+        color: #333;
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
       }
 
       label {
         display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
-        color: #4a5568;
-        font-weight: 500;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: #333;
       }
 
       input,
       select {
         width: 100%;
-        padding: 12px 16px;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        font-size: 14px;
-        transition: all 0.2s ease;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        background-color: white;
       }
 
       input:focus,
       select:focus {
         outline: none;
         border-color: #4db6ac;
-        box-shadow: 0 0 0 3px rgba(77, 182, 172, 0.1);
-      }
-
-      .error-message {
-        color: #e53e3e;
-        font-size: 13px;
-        margin-top: 6px;
-        display: none;
-      }
-
-      .price {
-        font-size: 24px;
-        font-weight: 600;
-        margin-top: 32px;
-        color: #2d3748;
-        padding: 16px;
-        background: #f7fafc;
-        border-radius: 6px;
-        text-align: right;
-      }
-
-      .submit-btn {
-        background-color: #4db6ac;
-        color: white;
-        padding: 14px 28px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: 500;
-        transition: all 0.2s ease;
-        float: right;
-      }
-
-      .submit-btn:hover {
-        background-color: #45a49a;
-        transform: translateY(-1px);
       }
 
       .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .total-amount {
+        margin: 2rem 0;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .amount {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .button-group {
         display: flex;
-        gap: 32px;
-        margin-bottom: 16px;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 2rem;
       }
 
-      .form-col {
-        flex: 1;
-      }
-
-      select[disabled] {
-        background-color: #f7fafc;
-        cursor: not-allowed;
-      }
-
-      .error {
-        border-color: #e53e3e;
-      }
-
-      .error-text {
-        color: #e53e3e;
-        font-size: 13px;
-        margin-top: 6px;
-      }
-
-      .date-range {
-        color: #4a5568;
-        font-size: 13px;
-        margin-top: 8px;
-        padding: 8px 12px;
-        background: #f7fafc;
+      .btn {
+        padding: 0.75rem 2rem;
+        border: none;
         border-radius: 4px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .btn-cancel {
+        background-color: #eee;
+        color: #666;
+      }
+
+      .btn-next {
+        background-color: #4db6ac;
+        color: white;
+      }
+
+      .btn:hover {
+        opacity: 0.9;
       }
 
       @media (max-width: 768px) {
-        .container {
-          padding: 32px 24px;
+        body {
+          padding: 1rem;
+        }
+
+        .pdeskcontainer {
+          padding: 1rem;
         }
 
         .form-row {
-          flex-direction: column;
-          gap: 20px;
+          grid-template-columns: 1fr;
         }
 
-        .submit-btn {
-          width: 100%;
-          float: none;
+        .progress-steps {
+          flex-direction: column;
+          gap: 1rem;
         }
       }
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="pdeskcontainer">
       <h1>Book now</h1>
       <p class="description">
         Located in a semi-private office, it's a more private experience that
         lets you focus, and make your workspace your own. Take advantage of
         all-inclusive amenities like high-speed Wi-Fi, bookable meeting rooms,
-        and your own lockable filing cabine
+        and your own lockable filing cabinet.
       </p>
+
+      <div class="progress-steps">
+        <div class="step active">
+          <div class="step-number">1</div>
+          <div class="step-label">Information</div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-label">Payment</div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-label">Finished</div>
+        </div>
+      </div>
 
       <form id="bookingForm">
         <div class="form-section">
-          <div class="form-group">
-            <h2>Select Room</h2>
+          <div class="section-title">Office</div>
+          <div class="form-row">
             <div class="form-group">
               <label for="room">Available Rooms:</label>
               <select id="room" required>
-                <option value="">Select a room</option>
+                <option value="">Select an office</option>
               </select>
             </div>
           </div>
-          <div class="section-header">
-            <div class="section-number">1</div>
-            <div class="section-title">Information</div>
-          </div>
-
+          <div class="section-title">Time period</div>
           <div class="form-row">
-            <div class="form-col">
-              <div class="form-group">
-                <label for="timeperiod">Time period</label>
-                <select id="timeperiod" required>
-                  <option value="">Select time period</option>
-                  <option value="daily">Daily (24h)</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="firstName">First name</label>
-                <input
-                  type="text"
-                  id="firstName"
-                  placeholder="eg. John"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="birthDate">Birth date</label>
-                <input type="date" id="birthDate" required />
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="example@example.com"
-                  required
-                />
-              </div>
+            <div class="form-group">
+              <label for="timeperiod">Time period</label>
+              <select id="timeperiod" required>
+                <option value="">Select time period</option>
+                <option value="daily">Daily (24h)</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+              </select>
             </div>
-
-            <div class="form-col">
-              <div class="form-group">
-                <label for="bookingDate">Start Date</label>
-                <input type="date" id="bookingDate" required />
-                <div class="date-range" id="dateRange"></div>
-                <div class="error-text" id="dateError" style="display: none">
-                  This date is not available. Try another option
-                </div>
+            <div class="form-group">
+              <label for="bookingDate">Select date</label>
+              <input type="date" id="bookingDate" required />
+              <div class="error-text" id="dateError" style="display: none">
+                This date is not available. Try another option
               </div>
-
-              <div class="form-group">
-                <label for="lastName">Last name</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  placeholder="eg. John"
-                  required
-                />
-              </div>
-
-              <!-- <div class="form-group">
-                <label for="idNumber">Identification number</label>
-                <input
-                  type="text"
-                  id="idNumber"
-                  placeholder="XXXXXXXX"
-                  required
-                />
-              </div> -->
-
-              <div class="form-group">
-                <label for="phone">Phone number</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  placeholder="+355 XX XXX XXXX"
-                  required
-                />
-              </div>
+              <!-- Add this div to show the date range -->
+              <div
+                id="dateRange"
+                style="display: none; font-size: 1rem; margin-top: 1rem"
+              ></div>
             </div>
           </div>
         </div>
 
         <div class="form-section">
-          <div class="section-header">
-            <div class="section-number">2</div>
-            <div class="section-title">Payment</div>
+          <div class="section-title">Personal Information</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First name</label>
+              <input type="text" id="firstName" placeholder="John" required />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last name</label>
+              <input type="text" id="lastName" placeholder="Doe" required />
+            </div>
           </div>
-
-          <!-- <div class="form-group">
-            <label for="seatNumber">Select seat</label>
-            <select id="seatNumber" required>
-              <option value="">Select a seat</option>
-            </select>
-          </div> -->
-          <button type="submit" class="submit-btn">Next</button>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="birthDate">Birth date</label>
+              <input type="date" id="birthDate" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input
+                type="text"
+                id="phone"
+                placeholder="Enter your phone number"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="example@example.com"
+              required
+            />
+          </div>
         </div>
 
-        <div class="price">5000 ALL</div>
+        <div class="total-amount">
+          <span>Total to pay</span>
+          <div class="amount">5000 ALL</div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-cancel">Cancel</button>
+          <button type="submit" class="btn btn-next">Next</button>
+        </div>
       </form>
     </div>
 
@@ -328,16 +296,16 @@
       async function init() {
         try {
           const response = await fetch(
-            "https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/sharedrooms"
+            "https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/leads/shared"
           );
           const data = await response.json();
-          console.log(data);
+          //   console.log(data);
           const roomSelect = document.getElementById("room");
 
           data.data.forEach((room) => {
             const option = document.createElement("option");
-            option.value = room.ID;
-            option.textContent = room.Name.zc_display_value;
+            option.value = room.id;
+            option.textContent = room.Name;
             roomSelect.appendChild(option);
           });
         } catch (error) {
@@ -347,24 +315,11 @@
 
       // Format date to dd-MMM-YYYY
       function formatDate(date) {
-        const months = [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ];
         const d = new Date(date);
-        return `${d.getDate().toString().padStart(2, "0")}-${
-          months[d.getMonth()]
-        }-${d.getFullYear()}`;
+        const year = d.getFullYear();
+        const month = (d.getMonth() + 1).toString().padStart(2, "0"); // Ensure month is two digits
+        const day = d.getDate().toString().padStart(2, "0"); // Ensure day is two digits
+        return `${year}-${month}-${day}`;
       }
 
       // Calculate end date based on time period
@@ -397,16 +352,20 @@
         const timePeriod = document.getElementById("timeperiod").value;
         const dateRangeElement = document.getElementById("dateRange");
 
-        if (startDate && timePeriod) {
-          endDate = calculateEndDate(startDate, timePeriod);
-          if (endDate) {
-            dateRangeElement.textContent = `Booking period: ${formatDate(
-              startDate
-            )} to ${formatDate(endDate)}`;
-            dateRangeElement.style.display = "block";
+        if (dateRangeElement) {
+          if (startDate && timePeriod) {
+            endDate = calculateEndDate(startDate, timePeriod);
+            if (endDate) {
+              dateRangeElement.textContent = `Booking period: ${formatDate(
+                startDate
+              )} to ${formatDate(endDate)}`;
+              dateRangeElement.style.display = "block";
+            }
+          } else {
+            dateRangeElement.style.display = "none";
           }
         } else {
-          dateRangeElement.style.display = "none";
+          console.error("Element with id 'dateRange' not found in the DOM.");
         }
       }
 
@@ -418,18 +377,20 @@
 
         endDate = calculateEndDate(bookingDate, timePeriod);
         if (!endDate) return;
-
+        // console.log("🚀 ~ checkAvailability ~ selectedRoomId:", selectedRoomId);
+        // console.log("🚀 ~ checkAvailability ~", formatDate(endDate));
         try {
           selectedRoomId = document.getElementById("room").value;
           const response = await fetch(
-            `https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/sharedrooms/${selectedRoomId}?from=${formatDate(
+            `https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/leads/shared/${selectedRoomId}?from=${formatDate(
               bookingDate
             )}&to=${formatDate(endDate)}`
           );
           const data = await response.json();
-          availableSeats = data.response.availableSeats;
-          console.log(data);
-          console.log(availableSeats);
+          //   console.log("🚀 ~ checkAvailability ~ data:", data);
+          availableSeats = data.availableSeats;
+          //   console.log(data);
+          //   console.log(availableSeats);
 
           //   const seatSelect = document.getElementById("seatNumber");
           //   seatSelect.innerHTML = '<option value="">Select a seat</option>';
@@ -450,10 +411,17 @@
 
       async function handleSubmit(event) {
         event.preventDefault();
+        // Get the phone number element, check for its existence
+        const phoneInput = document.getElementById("phone");
+        const phone = phoneInput ? phoneInput.value : "";
+        // console.log("🚀 ~ handleSubmit ~ phone:", phone);
+
+        if (!phone) {
+          alert("Please provide a phone number.");
+        }
 
         if (!endDate) {
           alert("Please select a time period and start date");
-          return;
         }
 
         // Create user
@@ -461,6 +429,9 @@
           name: document.getElementById("firstName").value,
           lastName: document.getElementById("lastName").value,
           email: document.getElementById("email").value,
+          company: "Tegeria",
+          // phone: document.getElementById("phone").value,
+          phone: phone,
           birthday: formatDate(document.getElementById("birthDate").value),
           address: "Tirana",
           state: "Tirana",
@@ -472,7 +443,7 @@
         try {
           // Create user
           const userResponse = await fetch(
-            "https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/rooms/user",
+            "https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/account",
             {
               method: "POST",
               headers: {
@@ -482,22 +453,24 @@
             }
           );
           const userData2 = await userResponse.json();
-          const userId = userData2.data.ID;
+          //   console.log("🚀 ~ handleSubmit ~ userData2:", userData2);
+          const userId = userData2.data.id;
           const randomSeat =
             Math.floor(Math.random() * availableSeats.length) + 1;
-          console.log("Random seat", randomSeat);
+          //   console.log("Random seat", randomSeat);
           // Create booking
           const bookingData = {
             user: userId,
             room: selectedRoomId,
-            phoneNumber: document.getElementById("phone").value,
+            phoneNumber: phone,
             from: formatDate(document.getElementById("bookingDate").value),
             to: formatDate(endDate),
             seat: randomSeat.toString(),
           };
+          //   console.log("🚀 ~ handleSubmit ~ bookingData:", bookingData);
 
           const bookingResponse = await fetch(
-            "https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/sharedrooms",
+            "https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/leads/shared",
             {
               method: "POST",
               headers: {
@@ -507,8 +480,9 @@
             }
           );
           const bookingResult = await bookingResponse.json();
+          //   console.log("🚀 ~ handleSubmit ~ bookingResult:", bookingResult);
 
-          if (bookingResult.code === 3000) {
+          if (bookingResult.code === "SUCCESS") {
             alert("Booking successful!");
             location.reload();
           } else {

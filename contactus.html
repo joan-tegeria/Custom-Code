@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+    <style>
+      .container {
+        display: flex;
+        max-width: 900px;
+        width: 100%;
+        background: #fff;
+        border-radius: 3px;
+
+        overflow: hidden;
+      }
+
+      .form-section {
+        border-top: 1px solid #999999;
+        padding: 30px;
+
+        flex: 1;
+      }
+
+      .form-section h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .form-section p {
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .form-section form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-section form input,
+      .form-section form textarea {
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 15px;
+      }
+
+      .form-section form textarea {
+        resize: vertical;
+      }
+
+      .form-section p.terms {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 15px;
+      }
+
+      .form-section p.terms a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .form-section button {
+        padding: 10px;
+        font-size: 14px;
+        color: white;
+        background-color: #58c1bf;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .form-section p.email {
+        font-size: 14px;
+        margin-top: 15px;
+        text-align: center;
+      }
+
+      .form-section p.email a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .image-section {
+        flex: 1;
+        background: url("http://35.176.180.59/wp-content/uploads/2024/11/contacty-us-1.jpeg")
+          no-repeat center center;
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-section">
+        <h1>Contact Us</h1>
+        <p>
+          No matter your budget or needs, we make it simple to find the ideal
+          workspace.
+        </p>
+        <form>
+          <input type="text" placeholder="Full name" required />
+          <input type="email" placeholder="Email" required />
+          <textarea placeholder="Message" rows="4" required></textarea>
+          <p class="terms">
+            By clicking the button below, you agree to our
+            <a href="#">Terms of Service</a>.
+          </p>
+          <button type="submit">Send message</button>
+        </form>
+        <p class="email">
+          Or send us an email at
+          <a href="mailto:contact@innovationhub.al">contact@innovationhub.al</a>
+        </p>
+      </div>
+      <div class="image-section"></div>
+    </div>
+  </body>
+</html>

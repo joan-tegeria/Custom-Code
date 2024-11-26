@@ -7,7 +7,7 @@
     <style>
       .pdeskcontainer {
         background-color: #fff;
-        border: 1px solid black;
+        /* border: 1px solid black; */
         width: 780px;
         margin: 0 auto;
         padding: 50px 55px;
@@ -164,6 +164,12 @@
       .btn:hover {
         opacity: 0.9;
       }
+      .success-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
       #dateRange,
       #dateError {
@@ -171,6 +177,9 @@
         color: #ff0000;
         margin-top: 10px;
         text-align: center;
+      }
+      #dateRange {
+        color: rgb(14, 173, 35);
       }
 
       @media (max-width: 768px) {
@@ -284,6 +293,7 @@
                 <label for="country">Country</label>
                 <select id="country" required>
                   <option value="">Select Country</option>
+                  <option value="Albania">Albania</option>
                   <option value="US">United States</option>
                   <option value="CA">Canada</option>
                   <option value="GB">United Kingdom</option>
@@ -533,8 +543,13 @@
               steps[1].classList.add("active");
 
               // Clear form or show success message
-              document.querySelector(".form-body").innerHTML =''
-
+              document.querySelector(
+                ".form-body"
+              ).innerHTML = `  <div class="success-container">
+             <img src="http://35.176.180.59/wp-content/uploads/2024/11/undraw_mail_sent_re_0ofv-1.png"/>
+              <h3>Your request was sent successfully</h3>
+              <p>Check your email for further details.</p>
+            </div>`;
             } catch (error) {
               // Handle any errors during the process
               dateErrorElement.textContent =

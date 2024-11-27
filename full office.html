@@ -345,6 +345,16 @@
           throw new Error("Unsupported date format");
         }
 
+        function formatDate2(date) {
+          if (date instanceof Date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            return `${year}-${month}-${day}T00:12:12+01:00`;
+          }
+          throw new Error("Unsupported date format");
+        }
+
         // Function to check room availability
         async function checkRoomAvailability() {
           // Clear previous messages
@@ -440,6 +450,7 @@
             state: state,
             country: country,
             code: "",
+            referral: "Private Office Form",
           };
 
           try {
@@ -459,7 +470,9 @@
             }
 
             const userResponse = await response.json();
-            return userResponse.id;
+            console.log(userResponse);
+
+            return userResponse.data.id;
           } catch (error) {
             console.error("Error creating user:", error);
             throw error;
@@ -468,10 +481,13 @@
 
         // Function to submit booking
         async function submitBooking(userId) {
+          const firstName = document.getElementById("firstName").value;
+          const lastName = document.getElementById("lastName").value;
           const bookingData = {
+            username: firstName + " " + lastName,
             user: userId,
-            from: formatDate(new Date(fromDateInput.value)),
-            to: formatDate(new Date(toDateInput.value)),
+            from: formatDate2(new Date(fromDateInput.value)),
+            to: formatDate2(new Date(toDateInput.value)),
             room: selectedRoomId,
             flexible: "no",
             description: "Booking submitted via web form",

@@ -273,6 +273,16 @@
             .value,
           notes: document.getElementById("notes").value,
         };
+        console.log("🚀 ~ handleSubmit ~ formData.endTime:", formData.endTime);
+        console.log("🚀 ~ handleSubmit ~ formData.endDate:", formData.endDate);
+        console.log(
+          "🚀 ~ handleSubmit ~ formData.startDate:",
+          formData.startDate
+        );
+        console.log(
+          "🚀 ~ handleSubmit ~ formData.startTime:",
+          formData.startTime
+        );
         let [firstName, ...lastNameParts] = formData.fullName.trim().split(" ");
         const lastName = lastNameParts.join(" ");
 
@@ -286,6 +296,7 @@
           state: "Tirana",
           country: "Albania",
           code: "1001",
+          referral: "Event Form",
         };
         console.log("🚀 ~ handleSubmit ~ userData:", userData);
 
@@ -317,8 +328,8 @@
         const newEvent = {
           event: formData.eventTitle,
           user: userId,
-          from: "2024-12-02T11:17:33+02:00",
-          to: "2024-12-02T14:19:33+02:00",
+          from: `${formData.startDate}T${formData.startTime}:00+02:00`,
+          to: `${formData.endDate}T${formData.endTime}:00+02:00`,
           room: "761384000000570824",
           description: formData.notes,
         };

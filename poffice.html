@@ -481,7 +481,10 @@
 
         // Function to submit booking
         async function submitBooking(userId) {
+          const firstName = document.getElementById("firstName").value;
+          const lastName = document.getElementById("lastName").value;
           const bookingData = {
+            username: firstName + " " + lastName,
             user: userId,
             from: formatDate2(new Date(fromDateInput.value)),
             to: formatDate2(new Date(toDateInput.value)),

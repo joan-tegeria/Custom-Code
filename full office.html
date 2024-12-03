@@ -181,6 +181,21 @@
       #dateRange {
         color: rgb(14, 173, 35);
       }
+      #durationSelect {
+        width: 320px;
+        height: 50px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: 0.85px solid #999999;
+        border-radius: 3px;
+        font-size: 14px;
+        box-sizing: border-box;
+        background-color: white;
+      }
+
+      #room{
+        margin-bottom: 10px;
+      }
 
       @media (max-width: 768px) {
         .pdeskcontainer {
@@ -228,18 +243,31 @@
 
       <form id="bookingForm">
         <div class="form-body">
+      
           <div class="form-section">
+            <div class="section-title">Office</div>
+            <div class="form-row">
+
+              <select id="room" required>
+                <option value="">Select an office</option>
+              </select>
+            </div>
             <div class="section-title">Time period</div>
             <div class="form-row">
+              <div class="form-group">
+                <label for="durationSelect">Duration</label>
+                <select id="durationSelect" required>
+                  <option value="">Select duration</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+              </div>
               <div class="form-group">
                 <label for="bookingDateFrom">From date</label>
                 <input type="date" id="bookingDateFrom" required />
               </div>
-              <div class="form-group">
-                <label for="bookingDateTo">To date</label>
-                <input type="date" id="bookingDateTo" required />
-              </div>
-            </div>
+              
             <div id="dateError" style="display: none"></div>
             <div id="dateRange"></div>
           </div>
@@ -329,10 +357,59 @@
         // Global variable to store selected room ID
         let selectedRoomId = null;
 
+        async function selectRoom() {
+          try {
+            const response = await fetch(
+              "https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/leads/office"
+            );
+            const data = await response.json();
+            //   console.log(data);
+            const roomSelect = document.getElementById("room");
+
+            data.data.forEach((room) => {
+              const option = document.createElement("option");
+              option.value = room.id;
+              option.textContent = room.Name;
+              roomSelect.appendChild(option);
+            });
+          } catch (error) {
+            console.error("Error fetching rooms:", error);
+          }
+        }
+
+        selectRoom();
         const fromDateInput = document.getElementById("bookingDateFrom");
-        const toDateInput = document.getElementById("bookingDateTo");
+        const durationSelect = document.getElementById("durationSelect");
+        let toDateInput = '';
         const dateErrorElement = document.getElementById("dateError");
         const dateRangeElement = document.getElementById("dateRange");
+
+
+        function calculateEndDate() {
+          if (!fromDateInput.value || !durationSelect.value) return null;
+
+          const fromDate = new Date(fromDateInput.value);
+          
+          switch(durationSelect.value) {
+            case 'weekly':
+              fromDate.setDate(fromDate.getDate() + 7);
+              break;
+            case 'monthly':
+              fromDate.setMonth(fromDate.getMonth() + 1);
+              break;
+            case 'yearly':
+              fromDate.setFullYear(fromDate.getFullYear() + 1);
+              break;
+            default:
+              return null;
+          }
+
+          // Subtract one day to get the last day of the period
+          fromDate.setDate(fromDate.getDate() - 1);
+          
+          return fromDate.toISOString().split('T')[0];
+        }
+ 
 
         // Reusable date formatting function
         function formatDate(date) {
@@ -361,8 +438,10 @@
           dateErrorElement.style.display = "none";
           dateRangeElement.textContent = "";
 
-          // Validate dates are selected
-          if (!fromDateInput.value || !toDateInput.value) {
+   
+          const end = calculateEndDate()
+          console.log("🚀 ~ checkRoomAvailability ~ end:", end)
+          if (!fromDateInput.value || !end) {
             dateErrorElement.textContent =
               "Please select both from and to dates";
             dateErrorElement.style.display = "block";
@@ -371,7 +450,7 @@
 
           // Validate from date is before to date
           const fromDate = new Date(fromDateInput.value);
-          const toDate = new Date(toDateInput.value);
+          const toDate = new Date(calculateEndDate());
           if (fromDate >= toDate) {
             dateErrorElement.textContent = "From date must be before to date";
             dateErrorElement.style.display = "block";
@@ -381,9 +460,9 @@
           try {
             const formattedFromDate = formatDate(fromDate);
             const formattedToDate = formatDate(toDate);
-
+            selectedRoomId = document.getElementById("room").value;
             const response = await fetch(
-              `https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/leads/office/available?from=${formattedFromDate}&to=${formattedToDate}`
+              `https://8ey3ox6oxi.execute-api.eu-central-1.amazonaws.com/prod/leads/office/${selectedRoomId}?from=${formattedFromDate}&to=${formattedToDate}`
             );
 
             if (!response.ok) {
@@ -395,30 +474,26 @@
               "🚀 ~ checkRoomAvailability ~ responseRooms:",
               responseRooms
             );
-            const availableRooms = responseRooms.availableRooms;
-            console.log("Avaliable rooms", availableRooms);
+            const availableRooms = responseRooms.data;
+            // console.log("Avaliable rooms", availableRooms);
 
             // Check if rooms are available
-            if (availableRooms.length === 0) {
+            if (availableRooms === "Booked") {
               dateErrorElement.textContent =
                 "No rooms available for selected dates";
               dateErrorElement.style.display = "block";
               dateRangeElement.textContent = "";
-              selectedRoomId = null;
+
               return false;
             }
 
-            // Select the first available room
-            selectedRoomId = availableRooms[0].id;
             console.log(
               "🚀 ~ checkRoomAvailability ~ availableRooms:",
               availableRooms
             );
 
             // Display available rooms info
-            dateRangeElement.textContent = `Available rooms: ${availableRooms
-              .map((room) => room.Name)
-              .join(", ")}`;
+            dateRangeElement.textContent = `Booking is avaliable`;
             return true;
           } catch (error) {
             console.error("Error checking room availability:", error);
@@ -483,11 +558,12 @@
         async function submitBooking(userId) {
           const firstName = document.getElementById("firstName").value;
           const lastName = document.getElementById("lastName").value;
+          const end = calculateEndDate()
           const bookingData = {
             username: firstName + " " + lastName,
             user: userId,
             from: formatDate2(new Date(fromDateInput.value)),
-            to: formatDate2(new Date(toDateInput.value)),
+            to: formatDate2(new Date(end)),
             room: selectedRoomId,
             flexible: "no",
             description: "Booking submitted via web form",
@@ -518,12 +594,14 @@
 
         // Add event listeners to date inputs to check availability
         fromDateInput.addEventListener("change", checkRoomAvailability);
-        toDateInput.addEventListener("change", checkRoomAvailability);
+
+        // durationSelect.addEventListener('change', updateEndDate);
+
 
         // Set min date for booking dates to prevent past date selection
         const today = new Date().toISOString().split("T")[0];
         fromDateInput.setAttribute("min", today);
-        toDateInput.setAttribute("min", today);
+        // toDateInput.setAttribute("min", today);
 
         // Form submission event listener
         document
@@ -567,6 +645,7 @@
               <p>Check your email for further details.</p>
             </div>`;
             } catch (error) {
+              console.log("🚀 ~ .addEventListener ~ error:", error)
               // Handle any errors during the process
               dateErrorElement.textContent =
                 "Booking failed. Please try again.";

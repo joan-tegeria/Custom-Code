@@ -30,6 +30,12 @@
         gap: 20px;
         margin-bottom: 15px;
       }
+      .success-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
       .form-group {
         flex: 1;
@@ -273,16 +279,7 @@
             .value,
           notes: document.getElementById("notes").value,
         };
-        console.log("🚀 ~ handleSubmit ~ formData.endTime:", formData.endTime);
-        console.log("🚀 ~ handleSubmit ~ formData.endDate:", formData.endDate);
-        console.log(
-          "🚀 ~ handleSubmit ~ formData.startDate:",
-          formData.startDate
-        );
-        console.log(
-          "🚀 ~ handleSubmit ~ formData.startTime:",
-          formData.startTime
-        );
+
         let [firstName, ...lastNameParts] = formData.fullName.trim().split(" ");
         const lastName = lastNameParts.join(" ");
 
@@ -332,6 +329,7 @@
           to: `${formData.endDate}T${formData.endTime}:00+02:00`,
           room: "761384000000570824",
           description: formData.notes,
+          type: formData.eventType,
         };
 
         try {
@@ -352,6 +350,14 @@
 
           const putResponse = await response.json();
           console.log("🚀 ~ handleSubmit ~ putResponse:", putResponse);
+
+          document.getElementById(
+            "eventForm"
+          ).innerHTML = `  <div class="success-container">
+             <img src="http://35.176.180.59/wp-content/uploads/2024/11/undraw_mail_sent_re_0ofv-1.png"/>
+              <h3>Your request was sent successfully</h3>
+              <p>Check your email for further details.</p>
+            </div>`;
         } catch (error) {
           console.error("Error creating user:", error);
           throw error;

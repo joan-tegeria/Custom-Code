@@ -1,0 +1,57 @@
+<style>
+header.wp-block-template-part {
+position: fixed;
+width: 100%;
+z-index:99999;
+top: 0;
+}
+.footer-absolution {
+  width: 100%;
+  position: absolute;
+  top: -120px;
+  left: 0;
+  right: 0;
+}
+
+.stop-height {
+  max-height: 370px;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px; /* Scrollbar width */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); /* Scrollbar thumb color */
+  border-radius: 12px; /* Rounded corners for thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.7); /* Darker on hover for interaction */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Scrollbar track background */
+  border-radius: 12px; /* Rounded corners for track */
+}
+
+/* Fallback for other browsers */
+scrollbar-width: thin; /* Firefox: Thin scrollbar */
+scrollbar-color: rgba(0, 0, 0, 0.5) #f1f1f1; /* Thumb and track colors */
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .footer-absolution {
+    position: relative; /* Unset absolute positioning */
+    top: auto; /* Reset top property */
+  }
+
+.disable-spacer{
+display:none;
+}
+  .stop-height {
+    max-height: 1000px; /* Remove max-height restriction */
+  }
+}
+</style>

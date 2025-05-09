@@ -1,0 +1,427 @@
+<style>
+  .language-switcherCont {
+    position: absolute;
+    right: 0;
+    z-index: 99999;
+  }
+  .nav-item {
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    color: #000000;
+  }
+
+  .nav-item:focus {
+    outline: none; /* Remove the outline */
+  }
+
+  a:focus {
+    outline: none;
+  }
+
+  .nav-button {
+    font-size: 14px;
+    background-color: #eb3778;
+    color: white;
+    width: 100px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .nav-button:hover {
+    background-color: #ff5486;
+  }
+  .nav-button:focus {
+    background-color: #b22e55;
+  }
+
+  .custom-nav-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    border-radius: 5px;
+    margin-top: 5px;
+    min-width: 180px;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-content {
+    top: calc(100% - 5px);
+    left: 50%;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .dropdown-item {
+    font-size: 16px;
+    font-weight: 400;
+    display: block;
+    padding: 12px 24px;
+    text-decoration: none;
+    color: #666666;
+    white-space: nowrap;
+  }
+
+  .read-more-drop {
+    text-decoration: underline;
+    color: #eb3778;
+  }
+
+  .dropdown-item:hover {
+    background-color: #ddd;
+  }
+
+  .our-solutions-nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dropdown-icon {
+    transition: transform 0.3s ease;
+    transform: rotate(0deg); /* explicitly set starting position */
+  }
+
+  .dropdown-icon path {
+    transition: fill 0.3s ease;
+  }
+
+  .dropdown-icon.open {
+    transform: rotate(180deg); /* Rotate the icon */
+  }
+
+  .dropdown-icon.open path {
+    fill: #eb3778;
+  }
+
+  .our-solutions-nav-item:hover .dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  .dropdown:hover .nav-item {
+    color: #eb3778;
+  }
+
+  .dropdown:hover .dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  .dropdown:hover .dropdown-icon path {
+    fill: #eb3778;
+  }
+
+  /* Add these new mobile-specific styles */
+  .mobile-menu-button {
+    display: none;
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .hamburger-icon {
+    width: 25px;
+    height: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hamburger-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #666666;
+    transition: all 0.3s ease;
+  }
+
+  .hamburger-icon.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+
+  .hamburger-icon.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger-icon.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+
+  .nav-items-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .mobile-menu-button {
+      display: block;
+    }
+
+    .custom-nav-container {
+      position: relative;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .nav-items-container {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 1000;
+    }
+
+    .nav-items-container.active {
+      display: flex;
+    }
+
+    .dropdown-content {
+      position: static;
+      box-shadow: none;
+      transform: none !important;
+      opacity: 1;
+      visibility: visible;
+      display: none;
+      margin-top: 10px;
+      padding-inline: 10px;
+      transition: none;
+      min-width: unset;
+    }
+
+    .dropdown.active .dropdown-content {
+      display: block;
+      transform: none !important;
+    }
+
+    .dropdown.active .nav-item,
+    .dropdown-item:hover,
+    .dropdown.active .dropdown-item {
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .nav-item,
+    .dropdown-item {
+      font-size: 14px;
+      width: 100%;
+      padding: 8px 0;
+    }
+
+    /* .nav-button {
+      width: 100%;
+      margin-top: 10px;
+    } */
+  }
+</style>
+
+<div class="custom-nav-container">
+  <a class="nav-item" href="/" style="display: block; margin-right: 12px"
+    >Home</a
+  >
+
+  <button class="mobile-menu-button">
+    <div class="hamburger-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
+
+  <div class="nav-items-container">
+    <div class="dropdown">
+      <a class="nav-item our-solutions-nav-item" href="/about-us">
+        About Us
+        <svg
+          class="dropdown-icon"
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1.41 0.589996L6 5.17L10.59 0.589996L12 2L6 8L0 2L1.41 0.589996Z"
+            fill="#666666"
+          />
+        </svg>
+      </a>
+      <div class="dropdown-content">
+        <a class="dropdown-item" href="/plug-and-play">Plug And Play</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <a class="nav-item our-solutions-nav-item" href="/services">
+        Our Solutions
+        <svg
+          class="dropdown-icon"
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1.41 0.589996L6 5.17L10.59 0.589996L12 2L6 8L0 2L1.41 0.589996Z"
+            fill="#666666"
+          />
+        </svg>
+      </a>
+      <div class="dropdown-content">
+        <a class="dropdown-item" href="/flexible-desk">Flexible Desk</a>
+        <a class="dropdown-item" href="/dedicated-desk">Dedicated Desk</a>
+        <a class="dropdown-item" href="/private-offices">Private Offices</a>
+      </div>
+    </div>
+    <a class="nav-item" href="/events-info">Events</a>
+    <!-- <a class="nav-item" href="https://blog.tegeria.com/" target="_blank">Blogs</a> -->
+    <div class="nav-button" onclick="scrollToBottom()">Join us</div>
+  </div>
+</div>
+
+<script>
+  // Get the current URL path and remove leading and trailing slashes
+  var currentPath = window.location.pathname.replace(/^\/|\/$/g, "");
+  console.log("The current path is = ", currentPath);
+
+  // Define paths for dropdown items
+  const aboutUsPaths = ["about-us", "plug-and-play"];
+  const ourSolutionsPaths = [
+    "services",
+    "services/flexible-desk",
+    "services/dedicated-desk",
+    "services/private-offices",
+  ];
+
+  // Function to highlight a nav item
+  function highlightNavItem(item) {
+    item.style.color = "#eb3778";
+    item.style.fontWeight = "bold";
+  }
+
+  // Find the corresponding navigation item and change its color and font weight
+  var navItems = document.querySelectorAll(".nav-item");
+  navItems.forEach(function (item) {
+    const itemPath = item.getAttribute("href").replace(/^\/|\/$/g, "");
+
+    if (itemPath === currentPath) {
+      highlightNavItem(item);
+    } else if (
+      item.textContent.trim() === "About Us" &&
+      aboutUsPaths.includes(currentPath)
+    ) {
+      highlightNavItem(item);
+    } else if (
+      item.textContent.trim() === "Our Solutions" &&
+      ourSolutionsPaths.includes(currentPath)
+    ) {
+      highlightNavItem(item);
+    }
+  });
+
+  // Also style the selected dropdown item and its parent
+  var dropdownItems = document.querySelectorAll(".dropdown-item");
+  dropdownItems.forEach(function (item) {
+    if (item.getAttribute("href").replace(/^\/|\/$/g, "") === currentPath) {
+      highlightNavItem(item);
+      // Style the parent dropdown nav item
+      const parentNavItem = item
+        .closest(".dropdown")
+        .querySelector(".nav-item");
+      if (parentNavItem) {
+        highlightNavItem(parentNavItem);
+      }
+    }
+  });
+
+  function scrollToBottom() {
+    if (window.location.pathname !== "/") {
+      window.location.href = "/";
+    }
+    var contactSection = document.getElementById("contact-section");
+    contactSection.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
+
+  // Add this new mobile menu functionality
+  document.addEventListener("DOMContentLoaded", function () {
+    const mobileMenuButton = document.querySelector(".mobile-menu-button");
+    const hamburgerIcon = document.querySelector(".hamburger-icon");
+    const navItemsContainer = document.querySelector(".nav-items-container");
+    const dropdowns = document.querySelectorAll(".dropdown");
+
+    mobileMenuButton.addEventListener("click", function (e) {
+      e.stopPropagation(); // Prevent event from bubbling
+      hamburgerIcon.classList.toggle("active");
+      navItemsContainer.classList.toggle("active");
+      // Close all dropdowns when toggling menu
+      dropdowns.forEach((dropdown) => dropdown.classList.remove("active"));
+    });
+
+    // Handle mobile dropdown toggles
+    dropdowns.forEach((dropdown) => {
+      const dropdownButton = dropdown.querySelector(".our-solutions-nav-item");
+
+      dropdownButton.addEventListener("click", function (e) {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          e.stopPropagation(); // Prevent event from bubbling
+
+          // Close other dropdowns
+          dropdowns.forEach((otherDropdown) => {
+            if (otherDropdown !== dropdown) {
+              otherDropdown.classList.remove("active");
+            }
+          });
+
+          dropdown.classList.toggle("active");
+        }
+      });
+    });
+
+    // Close mobile menu and dropdowns when clicking outside
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".custom-nav-container")) {
+        hamburgerIcon.classList.remove("active");
+        navItemsContainer.classList.remove("active");
+        dropdowns.forEach((dropdown) => dropdown.classList.remove("active"));
+      }
+    });
+  });
+</script>

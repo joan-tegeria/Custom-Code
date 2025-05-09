@@ -1,0 +1,605 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+/>
+
+<style>
+  .language-switcherCont {
+    position: absolute;
+    right: 0;
+    z-index: 99999;
+    transform: scale(0.9);
+  }
+  .nav-item {
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    color: #000000;
+  }
+  .nav-home {
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    color: #000000;
+  }
+
+  .mobile-menu-button {
+    padding-right: 0 !important;
+  }
+
+  .nav-item:focus {
+    outline: none; /* Remove the outline */
+  }
+
+  a:focus {
+    outline: none;
+  }
+
+  .nav-button {
+    font-size: 14px;
+    background-color: #eb3778;
+    color: white;
+    width: 100px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .nav-button:hover {
+    background-color: #ff5486;
+  }
+  .nav-button:focus {
+    background-color: #b22e55;
+  }
+
+  .custom-nav-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    border-radius: 5px;
+    margin-top: 5px;
+    min-width: 180px;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-content {
+    top: calc(100% - 5px);
+    left: 50%;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .dropdown-item {
+    font-size: 16px;
+    font-weight: 400;
+    display: block;
+    padding: 12px 24px;
+    text-decoration: none;
+    color: #666666;
+    white-space: nowrap;
+  }
+
+  .read-more-drop {
+    text-decoration: underline;
+    color: #eb3778;
+  }
+
+  .dropdown-item:hover {
+    background-color: #ddd;
+  }
+
+  .our-solutions-nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dropdown-icon {
+    transition: transform 0.3s ease;
+    transform: rotate(0deg); /* explicitly set starting position */
+  }
+
+  .dropdown-icon path {
+    transition: fill 0.3s ease;
+  }
+
+  .dropdown-icon.open {
+    transform: rotate(180deg); /* Rotate the icon */
+  }
+
+  .dropdown-icon.open path {
+    fill: #eb3778;
+  }
+
+  .our-solutions-nav-item:hover .dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  .dropdown:hover .nav-item {
+    color: #eb3778;
+  }
+
+  .dropdown:hover .dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  .dropdown:hover .dropdown-icon path {
+    fill: #eb3778;
+  }
+
+  /* Add these new mobile-specific styles */
+  .mobile-menu-button {
+    display: none;
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  /* Hamburger Icon Styles */
+  .hamburger-icon {
+    width: 25px;
+    height: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hamburger-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #666666;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  .mobile-menu-button:focus,
+  .mobile-menu-button:active {
+    outline: none;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Improved X transformation that's perfectly symmetrical */
+  .hamburger-icon.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+
+  .hamburger-icon.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger-icon.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+  .nav-items-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .social-media-container {
+    display: none;
+  }
+
+  .logo-img {
+    display: none;
+  }
+  @media screen and (max-width: 768px) {
+    .mobile-menu-button {
+      display: block;
+      /* position: absolute; */
+      right: 10px;
+      top: 10px;
+      z-index: 1001;
+    }
+
+    .logo-img {
+      display: block;
+    }
+    .nav-button {
+      width: 100%;
+    }
+
+    .custom-nav-container {
+      position: relative;
+      justify-content: flex-start;
+      padding: 20px;
+      padding-right: 0;
+    }
+
+    .nav-items-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: white;
+      padding: 40px 20px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 32px;
+      z-index: 1000;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .nav-items-container.active {
+      display: flex;
+      padding-left: 30px;
+    }
+
+    .dropdown-content {
+      position: static;
+      box-shadow: none;
+      transform: none !important;
+      opacity: 1;
+      visibility: visible;
+      display: none;
+      margin-top: 10px;
+      padding: 0;
+      background: none;
+    }
+
+    .dropdown.active .dropdown-content {
+      display: block;
+    }
+
+    .nav-item {
+      font-size: 18px;
+      padding: 8px 0;
+      width: 100%;
+    }
+
+    .dropdown-item {
+      font-size: 18px;
+      padding: 8px 24px;
+      border: none;
+    }
+
+    /* Add social media icons container */
+    .social-media-container {
+      display: flex;
+      gap: 24px;
+      margin-top: auto;
+      padding-top: 32px;
+    }
+
+    .social-media-container a {
+      color: #000;
+      text-decoration: none;
+    }
+
+    /* Style the dropdown icon */
+    .dropdown-icon {
+      margin-left: auto;
+    }
+
+    .our-solutions-nav-item {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .nav-home {
+      display: none !important;
+    }
+  }
+</style>
+
+<div class="custom-nav-container">
+  <button class="mobile-menu-button">
+    <div class="hamburger-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
+
+  <div class="nav-items-container">
+    <svg
+      width="133"
+      height="40"
+      viewBox="0 0 133 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="logo-img"
+    >
+      <g clip-path="url(#clip0_2423_2499)">
+        <path
+          d="M61.5043 24.7832H59.6211V31.2439H61.5043V24.7832Z"
+          fill="black"
+        />
+        <path
+          d="M70.6713 24.7832V31.2421H69.0203L64.8492 26.9967V31.2421H63.0312V24.7832H65.0234L68.8534 28.7329V24.7832H70.6713Z"
+          fill="black"
+        />
+        <path
+          d="M79.8275 24.7832V31.2421H78.1765L74.0054 26.9967V31.2421H72.1875V24.7832H74.1796L78.0096 28.7329V24.7832H79.8275Z"
+          fill="black"
+        />
+        <path
+          d="M80.9727 28.0121C80.9727 25.8258 82.6255 24.5703 85.1818 24.5703C87.7382 24.5703 89.3983 25.8258 89.3983 28.0121C89.3983 30.1983 87.7364 31.4556 85.1818 31.4556C82.6273 31.4556 80.9727 30.2001 80.9727 28.0121ZM87.4788 28.0121C87.4788 26.7947 86.6024 26.1016 85.1818 26.1016C83.7612 26.1016 82.8831 26.7947 82.8831 28.0121C82.8831 29.2294 83.7594 29.9225 85.1818 29.9225C86.6043 29.9225 87.4788 29.2294 87.4788 28.0121Z"
+          fill="black"
+        />
+        <path
+          d="M91.4365 24.7832L93.5683 29.4333L95.691 24.7832H97.7031L94.5371 31.2421H92.5631L89.4062 24.7832H91.4365Z"
+          fill="black"
+        />
+        <path
+          d="M102.894 30.0066H99.351L98.7414 31.2439H96.7656L100.106 24.7832H102.163L105.503 31.2439H103.5L102.891 30.0066H102.894ZM102.239 28.6676L101.122 26.3798L99.9951 28.6676H102.238H102.239Z"
+          fill="black"
+        />
+        <path
+          d="M111.837 26.2873H109.152V31.2421H107.269V26.2873H104.602V24.7832H111.837V26.2873Z"
+          fill="black"
+        />
+        <path
+          d="M114.618 24.7832H112.734V31.2439H114.618V24.7832Z"
+          fill="black"
+        />
+        <path
+          d="M115.773 28.0121C115.773 25.8258 117.426 24.5703 119.983 24.5703C122.539 24.5703 124.199 25.8258 124.199 28.0121C124.199 30.1983 122.537 31.4556 119.983 31.4556C117.428 31.4556 115.773 30.2001 115.773 28.0121ZM122.28 28.0121C122.28 26.7947 121.403 26.1016 119.983 26.1016C118.562 26.1016 117.684 26.7947 117.684 28.0121C117.684 29.2294 118.56 29.9225 119.983 29.9225C121.405 29.9225 122.28 29.2294 122.28 28.0121Z"
+          fill="black"
+        />
+        <path
+          d="M132.986 24.7832V31.2421H131.333L127.162 26.9967V31.2421H125.344V24.7832H127.338L131.168 28.7329V24.7832H132.986Z"
+          fill="black"
+        />
+        <path
+          d="M67.2629 33.0469V39.5058H65.3797V37.0057H61.5043V39.5058H59.6211V33.0469H61.5043V35.4545H65.3797V33.0469H67.2629Z"
+          fill="black"
+        />
+        <path
+          d="M76.1701 33.0469V36.4614C76.1701 38.4281 74.8312 39.7199 72.4236 39.7199C70.016 39.7199 68.668 38.4281 68.668 36.4614V33.0469H70.5512V36.3144C70.5512 37.4411 71.179 38.1687 72.4254 38.1687C73.6718 38.1687 74.2905 37.4393 74.2905 36.3144V33.0469H76.1738H76.1701Z"
+          fill="black"
+        />
+        <path
+          d="M85.1637 37.7332C85.1637 38.849 84.1586 39.5058 82.5711 39.5058H77.5781V33.0469H82.201C83.7885 33.0469 84.7936 33.6837 84.7936 34.7179C84.7936 35.4472 84.2856 36.084 83.3168 36.1385C84.3328 36.2038 85.1619 36.739 85.1619 37.735M79.4414 35.6214H81.8871C82.5149 35.6214 82.9303 35.4835 82.9303 34.9846C82.9303 34.4856 82.5149 34.3568 81.8871 34.3568H79.4414V35.6214ZM83.2351 37.5137C83.2351 36.9875 82.8378 36.8406 82.1738 36.8406H79.4432V38.1977H82.1738C82.8378 38.1977 83.2351 38.0417 83.2351 37.5137Z"
+          fill="black"
+        />
+        <path
+          d="M35.7642 10.1406V20.2808L11.9297 20.2826V40.0005H23.8587V29.3995H35.7642V39.9642H47.6933V10.1406H35.7642Z"
+          fill="black"
+        />
+        <path
+          d="M11.9291 0H0V20.2821H11.9291V13.0957V6.89618V0Z"
+          fill="black"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_2423_2499">
+          <rect width="132.985" height="40" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+
+    <a class="nav-item" href="/" style="display: block; margin-right: 12px"
+      >Home</a
+    >
+    <div class="dropdown">
+      <a class="nav-item our-solutions-nav-item" href="/about-us">
+        About
+        <svg
+          class="dropdown-icon"
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1.41 0.589996L6 5.17L10.59 0.589996L12 2L6 8L0 2L1.41 0.589996Z"
+            fill="#666666"
+          />
+        </svg>
+      </a>
+      <div class="dropdown-content">
+        <a class="dropdown-item" href="/about-us">About us</a>
+        <a class="dropdown-item" href="/innovation-coworking"
+          >Innovation & Coworking</a
+        >
+        <a class="dropdown-item" href="/plug-and-play">Plug And Play</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <a class="nav-item our-solutions-nav-item" href="/services">
+        Our Solutions
+        <svg
+          class="dropdown-icon"
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1.41 0.589996L6 5.17L10.59 0.589996L12 2L6 8L0 2L1.41 0.589996Z"
+            fill="#666666"
+          />
+        </svg>
+      </a>
+      <div class="dropdown-content">
+        <a class="dropdown-item" href="/flexible-desk">Flexible Desk</a>
+        <a class="dropdown-item" href="/dedicated-desk">Dedicated Desk</a>
+        <a class="dropdown-item" href="/private-offices">Private Offices</a>
+      </div>
+    </div>
+    <a class="nav-item" href="/events-info">Events</a>
+    <div class="nav-button" onclick="scrollToBottom()">Join us</div>
+    <div class="social-media-container">
+      <a href="#" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="#" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </div>
+
+    <!-- Add social media icons -->
+  </div>
+</div>
+
+<script>
+  // Get the current URL path and remove leading and trailing slashes
+  var currentPath = window.location.pathname.replace(/^\/|\/$/g, "");
+  console.log("The current path is = ", currentPath);
+
+  // Define paths for dropdown items
+  const aboutUsPaths = ["about-us", "plug-and-play", "innovation-coworking"];
+  const ourSolutionsPaths = [
+    "services",
+    "flexible-desk",
+    "dedicated-desk",
+    "private-offices",
+  ];
+
+  // Function to highlight a nav item
+  function highlightNavItem(item) {
+    item.style.color = "#eb3778";
+    item.style.fontWeight = "bold";
+  }
+
+  // Find the corresponding navigation item and change its color and font weight
+  var navItems = document.querySelectorAll(".nav-item");
+  navItems.forEach(function (item) {
+    const itemPath = item.getAttribute("href").replace(/^\/|\/$/g, "");
+    const itemText = item.textContent.trim();
+
+    if (itemPath === currentPath) {
+      highlightNavItem(item);
+    } else if (
+      itemText === "About" &&
+      aboutUsPaths.some((path) => currentPath.includes(path))
+    ) {
+      highlightNavItem(item);
+    } else if (
+      itemText === "Our Solutions" &&
+      ourSolutionsPaths.some((path) => currentPath.includes(path))
+    ) {
+      highlightNavItem(item);
+    }
+  });
+
+  // Also style the selected dropdown item and its parent
+  var dropdownItems = document.querySelectorAll(".dropdown-item");
+  dropdownItems.forEach(function (item) {
+    if (item.getAttribute("href").replace(/^\/|\/$/g, "") === currentPath) {
+      highlightNavItem(item);
+      // Style the parent dropdown nav item
+      const parentNavItem = item
+        .closest(".dropdown")
+        .querySelector(".nav-item");
+      if (parentNavItem) {
+        highlightNavItem(parentNavItem);
+      }
+    }
+  });
+
+  function scrollToBottom() {
+    if (window.location.pathname !== "/") {
+      window.location.href = "/";
+    }
+    var contactSection = document.getElementById("contact-section");
+    contactSection.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
+
+  // Add this new mobile menu functionality
+  document.addEventListener("DOMContentLoaded", function () {
+    const mobileMenuButton = document.querySelector(".mobile-menu-button");
+    const hamburgerIcon = document.querySelector(".hamburger-icon");
+    const navItemsContainer = document.querySelector(".nav-items-container");
+    const dropdowns = document.querySelectorAll(".dropdown");
+
+    mobileMenuButton.addEventListener("click", function (e) {
+      e.stopPropagation(); // Prevent event from bubbling
+      hamburgerIcon.classList.toggle("active");
+      navItemsContainer.classList.toggle("active");
+      // Close all dropdowns when toggling menu
+      dropdowns.forEach((dropdown) => dropdown.classList.remove("active"));
+    });
+
+    // Handle mobile dropdown toggles
+    dropdowns.forEach((dropdown) => {
+      const dropdownButton = dropdown.querySelector(".our-solutions-nav-item");
+
+      dropdownButton.addEventListener("click", function (e) {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          e.stopPropagation(); // Prevent event from bubbling
+
+          // Check if this dropdown is already active
+          const isActive = dropdown.classList.contains("active");
+
+          // Close other dropdowns
+          dropdowns.forEach((otherDropdown) => {
+            if (otherDropdown !== dropdown) {
+              otherDropdown.classList.remove("active");
+            }
+          });
+
+          // Toggle the current dropdown (close if already open, open if closed)
+          if (isActive) {
+            dropdown.classList.remove("active");
+          } else {
+            dropdown.classList.add("active");
+          }
+        }
+      });
+    });
+
+    // Close mobile menu and dropdowns when clicking outside
+    document.addEventListener("click", function (e) {
+      // Check if the click is outside the dropdown buttons
+      const isOutsideDropdownButtons = !e.target.closest(
+        ".our-solutions-nav-item"
+      );
+
+      // If clicking outside dropdown buttons and not inside dropdown content, close all dropdowns
+      if (isOutsideDropdownButtons && !e.target.closest(".dropdown-content")) {
+        dropdowns.forEach((dropdown) => dropdown.classList.remove("active"));
+      }
+
+      // If clicking completely outside the nav container, close the mobile menu too
+      if (!e.target.closest(".custom-nav-container")) {
+        hamburgerIcon.classList.remove("active");
+        navItemsContainer.classList.remove("active");
+      }
+    });
+  });
+</script>

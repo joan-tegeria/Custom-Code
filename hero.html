@@ -1,0 +1,122 @@
+<style>
+    .hover-anim {
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* Adds smooth transition */
+    }
+
+  
+    @media screen and (max-width: 1280px) {
+      .lang-switcher {
+        display: none;
+      }
+      .web-spacer {
+        display: none;
+      }
+    }
+    .page-nav {
+      -webkit-box-shadow: 0px 11px 37px -26px rgba(0, 0, 0, 0.52);
+      -moz-box-shadow: 0px 11px 37px -26px rgba(0, 0, 0, 0.52);
+      box-shadow: 0px 11px 37px -26px rgba(0, 0, 0, 0.52);
+    }
+    .hover-anim:hover {
+      transform: scale(1.01); /* Slight zoom */
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds subtle shadow */
+    }
+  
+    .main-navbar {
+      overflow: hidden;
+      position: sticky; /* Makes the navbar sticky */
+      top: 0; /* Sticks it to the top of the page */
+      width: 100%;
+      z-index: 1000; /* Keeps it above other content */
+    }
+  
+    @media screen and (min-width: 1280px) {
+      .OurServices {
+        position: absolute;
+        z-index: 99990;
+        top: -100px;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+      .relativePos {
+        position: relative;
+      }
+      .HeroCover {
+        position: relative;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Get the current URL path and remove leading and trailing slashes
+      const currentPath = window.location.pathname.replace(/^\/|\/$/g, "");
+      console.log("The current path is = ", currentPath);
+  
+      // Define paths for different sections
+      const aboutUsPaths = ["about-us", "plug-and-play"];
+      const ourSolutionsPaths = [
+        "services",
+        "services/flexible-desk",
+        "services/dedicated-desk",
+        "services/private-offices",
+      ];
+  
+      // Function to highlight a nav item
+      function highlightNavItem(item) {
+        item.style.color = "#eb3778";
+        item.style.fontWeight = "bold";
+      }
+  
+      // Find and style navigation links in the WordPress navigation block
+      const navLinks = document.querySelectorAll(".wp-block-navigation a");
+      navLinks.forEach((link) => {
+        const linkHref = link.getAttribute("href")?.replace(/^\/|\/$/g, "");
+  
+        // Exact path match
+        if (linkHref === currentPath) {
+          highlightNavItem(link);
+        }
+        // About Us section match
+        else if (
+          link.textContent.trim() === "About Us" &&
+          aboutUsPaths.includes(currentPath)
+        ) {
+          highlightNavItem(link);
+        }
+        // Our Solutions section match
+        else if (
+          link.textContent.trim() === "Our Solutions" &&
+          ourSolutionsPaths.includes(currentPath)
+        ) {
+          highlightNavItem(link);
+        }
+      });
+  
+      // Handling the "Join Us" button
+      const joinUsButtons = document.querySelectorAll(".wp-block-button a");
+      joinUsButtons.forEach((button) => {
+        const buttonHref = button.getAttribute("href")?.replace(/^\/|\/$/g, "");
+  
+        // If button links to current page, style it
+        if (buttonHref === currentPath) {
+          button.style.backgroundColor = "#eb3778";
+          button.style.color = "white";
+        }
+      });
+  
+      // Add hover styles
+      const style = document.createElement("style");
+      style.textContent = `
+          .wp-block-navigation a:hover {
+            color: #eb3778 !important;
+          }
+          .wp-block-button a:hover {
+            background-color: #eb3778 !important;
+            color: white !important;
+          }
+        `;
+      document.head.appendChild(style);
+    });
+  </script>
